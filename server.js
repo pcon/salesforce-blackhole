@@ -78,7 +78,7 @@ var Blackhole = function () {
 
 		for (route in self.post_routes) {
 			if (self.post_routes.hasOwnProperty(route)) {
-				self.app.get(route, self.post_routes[route]);
+				self.app.post(route, self.post_routes[route]);
 			}
 		}
 	};
