@@ -10,11 +10,11 @@ var Blackhole = function () {
 
 	self.setupVariables = function () {
 		self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
-		self.port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+		self.port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080;
 
 		if (typeof self.ipaddress === "undefined") {
 			console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
-			self.ipaddress = "127.0.0.1";
+			self.ipaddress = "0.0.0.0";
 		}
 	};
 
