@@ -6,7 +6,8 @@ var fs = require('fs');
 var Blackhole = function () {
 	'use strict';
 
-	var self = this;
+	var sendXML,
+		self = this;
 
 	self.setupVariables = function () {
 		self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
@@ -54,13 +55,18 @@ var Blackhole = function () {
 		});
 	};
 
-	self.createRoutes = function () {
-		self.get_routes = {};
-		self.post_routes = {};
+	sendXML = function (req, res) {
+		res.setHeader('Content-Type', 'application/xml');
+		res.send(self.cache_get('response.xml'));
+	};
 
-		self.post_routes['/'] = function (req, res) {
-			res.setHeader('Content-Type', 'application/xml');
-			res.send(self.cache_get('response.xml'));
+	self.createRoutes = function () {
+		self.get_routes = {
+			'/': sendXML
+		};
+
+		self.post_routes = {
+			'/': sendXML
 		};
 	};
 
