@@ -2,11 +2,14 @@
 /*global require, process, console */
 var express = require('express');
 var fs = require('fs');
+var Q = require('q');
+var xmlparser = require('express-xml-bodyparser');
+var utils = require('./js/utils.js');
 
 var Blackhole = function () {
     'use strict';
 
-    var sendXML,
+    var sendXML_get, sendXML_post,
         self = this;
 
     self.setupVariables = function () {
@@ -60,19 +63,27 @@ var Blackhole = function () {
     };
 
     /*jslint unparam: true*/
-    sendXML = function (req, res) {
+    sendXML_get = function (req, res) {
         res.setHeader('Content-Type', 'application/xml');
         res.send(self.cache_get('response.xml'));
     };
     /*jslint unparam: false*/
 
+    sendXML_post = function (req, res) {
+        var org_id = req.body['soapenv:envelope']['soapenv:body'][0].notifications[0].organizationid[0];
+
+        utils.mysql.logMessage(org_id);
+        res.setHeader('Content-Type', 'application/xml');
+        res.send(self.cache_get('response.xml'));
+    };
+
     self.createRoutes = function () {
         self.get_routes = {
-            '/': sendXML
+            '/': sendXML_get
         };
 
         self.post_routes = {
-            '/': sendXML
+            '/': sendXML_post
         };
     };
 
@@ -81,6 +92,7 @@ var Blackhole = function () {
 
         self.createRoutes();
         self.app = express();
+        self.app.use(xmlparser());
 
         for (route in self.get_routes) {
             if (self.get_routes.hasOwnProperty(route)) {
@@ -96,11 +108,28 @@ var Blackhole = function () {
     };
 
     self.initialize = function () {
+        var deferred = Q.defer();
+
         self.setupVariables();
         self.populateCache();
         self.setupTerminationHandlers();
 
-        self.initializeServer();
+        if (!utils.mysql.hasMysql()) {
+            console.log('%s: Mysql not found.  Skipping', Date(Date.now()));
+            self.initializeServer();
+            deferred.resolve();
+        } else {
+            utils.mysql.checkAndCreateTables()
+                .then(function () {
+                    self.initializeServer();
+                    deferred.resolve();
+                })
+                .catch(function (error) {
+                    deferred.reject(error);
+                });
+        }
+
+        return deferred.promise;
     };
 
 
@@ -113,5 +142,14 @@ var Blackhole = function () {
 };
 
 var zapp = new Blackhole();
-zapp.initialize();
-zapp.start();
+zapp.initialize()
+    .then(function () {
+        'use strict';
+
+        zapp.start();
+    })
+    .catch(function (error) {
+        'use strict';
+
+        console.log(error);
+    });
