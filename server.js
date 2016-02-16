@@ -70,9 +70,10 @@ var Blackhole = function () {
     /*jslint unparam: false*/
 
     sendXML_post = function (req, res) {
-        var org_id = req.body['soapenv:envelope']['soapenv:body'][0].notifications[0].organizationid[0];
+        var org_id = req.body['soapenv:envelope']['soapenv:body'][0].notifications[0].organizationid[0],
+            object_type = req.body['soapenv:envelope']['soapenv:body'][0].notifications[0].notification[0].sobject[0].$['xsi:type'];
 
-        utils.mysql.logMessage(org_id);
+        utils.mysql.logMessage(org_id, object_type);
         res.setHeader('Content-Type', 'application/xml');
         res.send(self.cache_get('response.xml'));
     };

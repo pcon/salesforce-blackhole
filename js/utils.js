@@ -35,7 +35,7 @@ var parseDbURL = function (dbURL) {
 
 var MYSQL_TABLE_MAP = {
     'visits': [
-        'create table visits (id bigint not null auto_increment primary key, orgid varchar(18) not null, visit_time datetime not null)'
+        'create table visits (id bigint not null auto_increment primary key, org_id varchar(18) not null, visit_time datetime not null, object_type varchar(255) not null)'
     ]
 };
 
@@ -198,10 +198,10 @@ var mysql_checkAndCreateTables = function () {
     return deferred.promise;
 };
 
-var mysql_logMessage = function (org_id) {
+var mysql_logMessage = function (org_id, object_type) {
     'use strict';
 
-    var insert_query = 'insert into visits (orgid, visit_time) values (' + mysql.escape(org_id) + ', NOW())',
+    var insert_query = 'insert into visits (org_id, visit_time, object_type) values (' + mysql.escape(org_id) + ', NOW(), ' + mysql.escape(object_type) + ')',
         deferred = Q.defer();
 
     mysql_query(insert_query)
