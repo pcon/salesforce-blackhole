@@ -1,28 +1,28 @@
 {
-	"name": "Blackhole",
-	"version": "1.0.0",
-	"description": "A blackhole designed to simply ACK any Salesforce message",
-	"keywords": [],
-	"author": {
-		"name": "Patrick Connelly",
-		"email": "patrick@deadlypenguin.com",
-		"url": "http://deadlypenguin.com/"
-	},
-	"homepage": "https://blackhole-pcon.itos.redhat.com/",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/openshift/origin-server"
-	},
+    "name": "Blackhole",
+    "version": "1.0.0",
+    "description": "A blackhole designed to simply ACK any Salesforce message",
+    "keywords": [],
+    "author": {
+        "name": "Patrick Connelly",
+        "email": "patrick@deadlypenguin.com",
+        "url": "http://deadlypenguin.com/"
+    },
+    "homepage": "https://blackhole-pcon.itos.redhat.com/",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/openshift/origin-server"
+    },
 
-	"engines": {
-		"node": ">= 0.10.0",
-		"npm": ">= 1.0.0"
-	},
-	"dependencies": {
-		"express": "~3.4.4"
-	},
-	"devDependencies": {},
-	"bundleDependencies": [],
-	"private": true,
-	"main": "server.js"
+    "engines": {
+        "node": ">= 0.10.0",
+        "npm": ">= 1.0.0"
+    },
+    "dependencies": {
+        "express": "~3.4.4"
+    },
+    "devDependencies": {},
+    "bundleDependencies": [],
+    "private": true,
+    "main": "server.js"
 }

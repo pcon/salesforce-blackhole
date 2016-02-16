@@ -1,10 +1,10 @@
 {
-	"name": "Salesforce Blackhole",
-	"description": "A messaging blackhole for Salesforce. Simply replies back with an ACK for any POST message",
-	"keywords": [
-		"salesforce"
-	],
-	"website": "https://github.com/pcon/salesforce-blackhole",
-	"logo": "https://raw.githubusercontent.com/pcon/salesforce-blackhole/master/icon.png",
-	"addons": [ ]
+    "name": "Salesforce Blackhole",
+    "description": "A messaging blackhole for Salesforce. Simply replies back with an ACK for any POST message",
+    "keywords": [
+        "salesforce"
+    ],
+    "website": "https://github.com/pcon/salesforce-blackhole",
+    "logo": "https://raw.githubusercontent.com/pcon/salesforce-blackhole/master/icon.png",
+    "addons": [ ]
 }
