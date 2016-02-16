@@ -6,5 +6,7 @@
     ],
     "website": "https://github.com/pcon/salesforce-blackhole",
     "logo": "https://raw.githubusercontent.com/pcon/salesforce-blackhole/master/icon.png",
-    "addons": [ ]
+    "addons": [
+        "jawsdb"
+    ]
 }
