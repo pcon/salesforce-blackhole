@@ -2,6 +2,7 @@
 /*global require, process, console */
 var express = require('express');
 var fs = require('fs');
+var lo = require('lodash');
 var Q = require('q');
 var xmlparser = require('express-xml-bodyparser');
 var utils = require('./js/utils.js');
@@ -70,8 +71,8 @@ var Blackhole = function () {
     /*jslint unparam: false*/
 
     sendXML_post = function (req, res) {
-        var org_id = req.body['soapenv:envelope']['soapenv:body'][0].notifications[0].organizationid[0],
-            object_type = req.body['soapenv:envelope']['soapenv:body'][0].notifications[0].notification[0].sobject[0].$['xsi:type'];
+        var org_id = lo.get(req.body, 'soapenv:envelope.soapenv:body[0].notifications[0].organizationid[0]'),
+            object_type = lo.get(req.body, 'soapenv:envelope.soapenv:body[0].notifications[0].notification[0].sobject[0].$.xsi:type');
 
         utils.mysql.logMessage(org_id, object_type);
         res.setHeader('Content-Type', 'application/xml');
